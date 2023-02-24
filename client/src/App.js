@@ -4,11 +4,16 @@ import './normalize.css';
 import {default as bot} from './assets/bot.svg';
 import user from './assets/user.svg';
 import {default as send} from './assets/send.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
+
+  useEffect(() => {
+    getEngines();
+  }, [])
   
   const [input, setInput] = useState("");
+  const [models, setModels] = useState([]);
   const [chatLog, setChatLog] = useState([{
     user: "gpt",
     message: "How can I help you today?"
@@ -22,6 +27,11 @@ function App() {
     setChatLog([]);
   }
 
+  function getEngines(){
+    fetch("http://localhost:3080/models")
+    .then(res => res.json())
+    .then(data => setModels(data.models))
+  }
 
   async function handleSubmit(e){
     e.preventDefault();
@@ -53,6 +63,13 @@ function App() {
       <div className="new-chat-button" onClick={clearChat}>
         <span>+</span>
         New chat
+      </div>
+      <div className="models">
+      <select>
+        {models.map((model, index) => (
+          <option key={model.id} value={model.id}>{model.id}</option>
+        ))}
+      </select>
       </div>
     </aside>
     <section className="chatbox">
