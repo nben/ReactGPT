@@ -5,15 +5,22 @@ import {default as bot} from './assets/bot.svg';
 import user from './assets/user.svg';
 import {default as send} from './assets/send.svg';
 import { useState, useEffect } from 'react';
+import DocumentTitle from 'react-document-title';
 
 function App() {
 
-  useEffect(() => {
-    getEngines();
-  }, [])
+  // useEffect(() => {
+  //   getEngines();
+  // }, [])
+
+//  return (
+//   <DocumentTitle title="ReactGPT">
+//   </DocumentTitle>
+//  
   
   const [input, setInput] = useState("");
   const [models, setModels] = useState([]);
+  const [currentModel, setCurrentModel] = useState("ada");
   const [chatLog, setChatLog] = useState([{
     user: "gpt",
     message: "How can I help you today?"
@@ -27,11 +34,11 @@ function App() {
     setChatLog([]);
   }
 
-  function getEngines(){
-    fetch("http://localhost:3080/models")
-    .then(res => res.json())
-    .then(data => setModels(data.models))
-  }
+  // function getEngines(){
+  //   fetch("http://localhost:3080/models")
+  //   .then(res => res.json())
+  //   .then(data => setModels(data.models))
+  // }
 
   async function handleSubmit(e){
     e.preventDefault();
@@ -47,7 +54,8 @@ function App() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        message: messages
+        message: messages,
+        currentModel,
       })
     });
 
@@ -65,7 +73,7 @@ function App() {
         New chat
       </div>
       <div className="models">
-      <select>
+      <select onChange={(e) => {setCurrentModel(e.target.value)}}>
         {models.map((model, index) => (
           <option key={model.id} value={model.id}>{model.id}</option>
         ))}
@@ -100,6 +108,7 @@ function App() {
     </div>
   );
 }
+
 
 const ChatMessage = ({ message }) => {
   return (
