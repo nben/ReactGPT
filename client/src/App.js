@@ -16,32 +16,41 @@ function App() {
     user:"me",
     message: "I would like to use ChatGPT today"}]);
 
+// clear chat logs
+
+  function clearChat(){
+    setChatLog([]);
+  }
+
+
   async function handleSubmit(e){
     e.preventDefault();
-    console.log('submit')
-    setChatLog([...chatLog, { user: "me", message: `${input}` } ]);
+    let chatLogNew = [...chatLog, { user: "me", message: `${input}` } ];
     setInput("");
+    setChatLog(chatLogNew);
 
     //fetch request to API combining chat log array of messages and sending it as a message to localhost:3080 as a post
+    const messages = chatLogNew.map((message) => message.message).join("\n")
     const response = await fetch("http://localhost:3080", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        message: chatLog.map((message) => message.message).join("")
+        message: messages
       })
     });
 
     const data = await response.json();
-    console.log(data);
+    setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}`}] )
+    console.log(data.message);
 
   }
   
   return (
     <div className="App">
     <aside className="sidemenu">
-      <div className="new-chat-button">
+      <div className="new-chat-button" onClick={clearChat}>
         <span>+</span>
         New chat
       </div>
