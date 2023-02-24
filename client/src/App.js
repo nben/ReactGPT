@@ -5,7 +5,6 @@ import {default as bot} from './assets/bot.svg';
 import user from './assets/user.svg';
 import {default as send} from './assets/send.svg';
 import { useState, useEffect } from 'react';
-import DocumentTitle from 'react-document-title';
 
 function App() {
 
