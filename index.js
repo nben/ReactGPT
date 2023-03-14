@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 
 // const { Configuration, OpenAIApi } = require("openai"); - redundant?
 const configuration = new Configuration({
-  organization: "org-8qWLXbrvG4vztI58EZDuwGTs",
+  organization: "org-8fpwOFHI5utidcTkgpPTfROw",
     apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
