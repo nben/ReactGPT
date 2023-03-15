@@ -6,8 +6,8 @@ const bodyParser = require('body-parser')
 
 // const { Configuration, OpenAIApi } = require("openai"); - redundant?
 const configuration = new Configuration({
-  organization: "org-8fpwOFHI5utidcTkgpPTfROw",
-    apiKey: process.env.OPENAI_API_KEY,
+  organization: "org-8qWLXbrvG4vztI58EZDuwGTs",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -17,7 +17,7 @@ const openai = new OpenAIApi(configuration);
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json())
-const port = 3080
+const port = 5000
 
 app.post('/', async (req,res) => {
   const { message } = req.body; // maybe add currentModel later
